@@ -32,18 +32,5 @@ pipeline {
             }
         }
     }
-    post {
-        success {
-            echo 'Pipeline succeeded!'
-            mail to: 'shyamkumar84895@gmail.com',
-                subject: "Pipeline Succeeded: ${currentBuild.fullDisplayName}",
-                body: "The pipeline ${env.BUILD_URL} has successfully completed."
-        }
-        failure {
-            echo 'Pipeline failed!'
-            mail to: 'shyamkumar84895@gmail.com',
-                subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
-                body: "The pipeline ${env.BUILD_URL} has failed. Check the logs for details."
-        }
-    }
+  
 }
