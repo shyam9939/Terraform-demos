@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    tools {
-    terraform 'terraform' // Matches the name in Global Tool Configuration
-    }
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-service-account')
-        PATH = "${env.PATH}:/var/lib/jenkins/tools/org.jenkinsci.plugins.terraform.TerraformInstallation/terraform"
+    }
+    parameters {
+        booleanParam(name: 'RUN_TERRAFORM_INIT', defaultValue:true, description:'Run Terraform init')
+        booleanParam(name: 'RUN_TERRAFORM_VALIDATE', defaultValue:true, description:'Run Terraform validate')
     }
     stages {
         stage('Checkout') {
@@ -15,6 +15,10 @@ pipeline {
             }
         }
         stage('Terraform Init') {
+            when {
+                expression { return params.RUN_TERRAFORM_INIT
+                }
+            }
             steps {
                 sh '''
                     which terraform
@@ -26,6 +30,10 @@ pipeline {
             }
         }
         stage('Terraform Validate') {
+            when {
+                expression { return params.RUN_TERRAFORM_VALIDATE
+                }
+            }
             steps {
                 sh 'terraform validate'
                 sh 'terraform apply -auto-approve'
