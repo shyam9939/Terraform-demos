@@ -25,7 +25,8 @@ pipeline {
                 sh '''
                     terraform init \
                     -backend-config="bucket=bucket-for-tfstate-file" \
-                    -backend-config="prefix=terraform1/state"
+                    -backend-config="prefix=terraform1/state" \
+                    -force-copy
                 '''
             }
         }
