@@ -26,7 +26,6 @@ pipeline {
                 withCredentials([file(credentialsId: 'packer-credential-id', variable: 'FILE')]){
                 dir('packer'){
                 sh '''
-                cd packer
                 ls
                 packer version
                 packer init -force packer-new
@@ -40,7 +39,6 @@ pipeline {
                 withCredentials([file(credentialsId: 'packer-credential-id', variable: 'FILE')]){
                 dir('packer'){
                 sh '''
-                cd packer
                 packer validate packer-new
                 '''
                 }
@@ -52,7 +50,6 @@ pipeline {
                 withCredentials([file(credentialsId: 'packer-credential-id', variable: 'FILE')]){
                 dir('packer'){
                 sh '''
-                cd packer
                 packer build packer-new
                 '''
                 }
