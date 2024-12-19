@@ -1,7 +1,7 @@
 ---
 - name : packer_ansible
   hosts: all
-  remote_user: c3ranjanacloud
+  remote_user: shyamkumar84895
   become: true
   tasks:
     - name: Configuring Apache server  #give summary of playbook in this line
