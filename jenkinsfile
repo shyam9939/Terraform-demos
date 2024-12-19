@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    environment{
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('packer-credentials-id')
+        PATH = "/usr/bin:$PATH"
+        /*PACKER_CREDENTIALS = credentials('packer-credentials-id')*/
+    }
+    stages{
+        stage('prepare script'){
+        steps{
+            dir('packer'){
+            sh 'ls -la'
+            sh 'chmod +x installations_packer.sh'
+            }
+        }
+    }
+        stage('execute packer installation script'){
+            steps {
+                dir('packer'){
+                sh './installations_packer.sh'
+                }
+            }
+        }
+        stage('packer init'){
+            steps {
+                withCredentials([file(credentialsId: 'packer-credentials-id', variable: 'FILE')]){
+                dir('packer'){
+                sh '''
+                cd packer
+                ls
+                packer version
+                packer init -force packer-new
+                '''
+                }
+                }
+            }
+        }
+        stage('packer validate'){
+            steps {
+                withCredentials([file(credentialsId: 'packer-credentials-id', variable: 'FILE')]){
+                dir('packer'){
+                sh '''
+                cd packer
+                packer validate packer-new
+                '''
+                }
+                }
+            }
+        }
+        stage('packer build'){
+            steps {
+                withCredentials([file(credentialsId: 'packer-credentials-id', variable: 'FILE')]){
+                dir('packer'){
+                sh '''
+                cd packer
+                packer build packer-new
+                '''
+                }
+                }
+            }
+        }
+    }
+}
