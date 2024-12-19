@@ -28,8 +28,8 @@ build {
  
   provisioner "shell-local" {
     inline = [ 
-      "sudo yum update -y",
-      "sudo yum install ansible-core -y",
+      "sudo apt update -y",
+      "sudo apt install ansible-core -y",
       "ansible --version"
     ]
   }
