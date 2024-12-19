@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "Updating system packages..."
-sudo yum update -y
+sudo apt update -y
 echo "Installing unzip and wget"
-sudo yum install -y unzip wget
+sudo apt install -y unzip wget
 echo "Downloading packer"
 wget https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip -P /tmp
 echo "Unzipping packer"
