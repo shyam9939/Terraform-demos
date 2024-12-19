@@ -1,0 +1,19 @@
+---
+- name : packer_ansible
+  hosts: all
+  remote_user: c3ranjanacloud
+  become: true
+  tasks:
+    - name: Configuring Apache server  #give summary of playbook in this line
+      apt:
+        name: apache2
+        state: present
+    - name: Creating index.html
+      copy:   #copy module can help to copy and also help in creating new file with content also
+        content: "Hello from Ansible Automation!!"
+        dest: /var/www/html/index.html
+    - name: Restart service apache2
+      service:
+        name: apache2
+        state: started
+        enabled: yes
